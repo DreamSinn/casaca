@@ -1,4 +1,4 @@
-const API_URL = "/api"; // Definindo a URL base para a API
+const API_URL = "https://ctbgen.vercel.app/api"; // Definindo a URL base para a API
 
 async function login(event) {
     event.preventDefault();
