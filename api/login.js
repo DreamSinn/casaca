@@ -1,8 +1,8 @@
 module.exports = async (req, res) => {
     // Configura os cabeçalhos CORS
-    res.setHeader("Access-Control-Allow-Origin", "*"); // Permite todas as origens
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); // Métodos permitidos
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type"); // Cabeçalhos permitidos
+    res.setHeader("Access-Control-Allow-Origin", "https://ctbgen-git-main-darosz640s-projects.vercel.app");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     // Responde à requisição OPTIONS (pré-voo do CORS)
     if (req.method === "OPTIONS") {
