@@ -1,4 +1,4 @@
-const db = require("./firebase");
+const db = require("../config/firebase");
 
 module.exports = async (req, res) => {
     // Configura os cabeçalhos CORS
