@@ -1,23 +1,6 @@
-const API_URL = "https://ctbgen.vercel.app/api"; // URL do backend
-
-async function login(event) {
-    event.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    const response = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-    });
-
-    const data = await response.json();
-    alert(data.message);
-    if (data.success) window.location.href = "start.html";
-}
-
+// Função para cadastrar
 async function register(event) {
-    event.preventDefault();
+    event.preventDefault(); // Impede o envio do formulário
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
@@ -27,16 +10,40 @@ async function register(event) {
         return;
     }
 
-    const response = await fetch(`${API_URL}/users`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-    });
+    try {
+        const response = await fetch(`${API_URL}/register`, {
+            method: "POST", // Método POST
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
 
-    const data = await response.json();
-    alert(data.message);
-    if (data.success) window.location.href = "login.html";
+        const data = await response.json();
+        alert(data.message);
+        if (data.success) window.location.href = "login.html";
+    } catch (error) {
+        console.error("Erro ao cadastrar:", error);
+        alert("Erro ao cadastrar. Tente novamente.");
+    }
 }
 
-document.getElementById("login-form")?.addEventListener("submit", login);
-document.getElementById("register-form")?.addEventListener("submit", register);
+// Função para login
+async function login(event) {
+    event.preventDefault(); // Impede o envio do formulário
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch(`${API_URL}/login`, {
+            method: "POST", // Método POST
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        if (data.success) window.location.href = "start.html";
+    } catch (error) {
+        console.error("Erro ao fazer login:", error);
+        alert("Erro ao fazer login. Tente novamente.");
+    }
+}

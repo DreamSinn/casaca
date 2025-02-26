@@ -26,3 +26,9 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+    mode: "no-cors" // Desativa o CORS
+});
