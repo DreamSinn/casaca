@@ -1,3 +1,5 @@
+const API_URL = "https://ctbgen-backend.vercel.app/api"; // URL do backend
+
 // Função para cadastrar
 async function register(event) {
     event.preventDefault(); // Impede o envio do formulário
@@ -12,7 +14,7 @@ async function register(event) {
 
     try {
         const response = await fetch(`${API_URL}/register`, {
-            method: "POST", // Método POST
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
         });
@@ -34,7 +36,7 @@ async function login(event) {
 
     try {
         const response = await fetch(`${API_URL}/login`, {
-            method: "POST", // Método POST
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
         });
@@ -47,3 +49,7 @@ async function login(event) {
         alert("Erro ao fazer login. Tente novamente.");
     }
 }
+
+// Adiciona os event listeners aos formulários
+document.getElementById("register-form")?.addEventListener("submit", register);
+document.getElementById("login-form")?.addEventListener("submit", login);

@@ -1,26 +1,35 @@
+const db = require("./firebase");
+
 module.exports = async (req, res) => {
     // Configura os cabeçalhos CORS
-    res.setHeader("Access-Control-Allow-Origin", "*"); // Permite todas as origens
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); // Métodos permitidos
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type"); // Cabeçalhos permitidos
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    // Responde à requisição OPTIONS (pré-voo do CORS)
     if (req.method === "OPTIONS") {
         return res.status(200).end();
     }
 
-    // Lógica do login
     const { username, password } = req.body;
 
-    // Simulação de banco de dados
-    const users = [];
-    const user = users.find(
-        (u) => u.username === username && u.password === password
-    );
+    try {
+        // Busca o usuário no Firestore
+        const userRef = db.collection("users").doc(username);
+        const doc = await userRef.get();
 
-    if (user) {
-        res.json({ success: true, message: "Login bem-sucedido!" });
-    } else {
-        res.status(401).json({ success: false, message: "Credenciais inválidas." });
+        if (!doc.exists) {
+            return res.status(401).json({ success: false, message: "Usuário não encontrado." });
+        }
+
+        const user = doc.data();
+
+        if (user.password === password) {
+            res.json({ success: true, message: "Login bem-sucedido!" });
+        } else {
+            res.status(401).json({ success: false, message: "Credenciais inválidas." });
+        }
+    } catch (error) {
+        console.error("Erro ao fazer login:", error);
+        res.status(500).json({ success: false, message: "Erro ao fazer login." });
     }
 };
